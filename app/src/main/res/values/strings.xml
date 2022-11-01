@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">CPI Beaumont</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_home">Planning des gardes</string>
+    <string name="menu_gallery">Inventaire VSAV</string>
+    <string name="menu_slideshow">Bilans secondaires</string>
+    <string name="enregistrement_d_un_utilisateur">Enregistrement d\'un utilisateur</string>
+    <string name="name">Nom</string>
+    <string name="pr_nom">Prénom</string>
+    <string name="centre">Centre</string>
+    <string name="grade">Grade</string>
+    <string name="user">%1$ %2$</string>
+    <string name="planning">Planning des gardes</string>
+    <string name="enregistrer_les_constantes">Bilan secondaire</string>
+    <string name="nomvictime">Nom et prénom</string>
+    <string name="tension_art_rielle">TA</string>
+    <string name="diastole">Diastole</string>
+    <string name="systole">Systole</string>
+    <string name="lepouls">Pouls</string>
+    <string name="glycemie">Glycemie</string>
+    <string name="glyc_mie">Glycémie</string>
+    <string name="temp_rature">température</string>
+    <string name="relev_de_temp_rature">Relevé de température</string>
+    <string name="fr_quence_respiratoire">fréquence respiratoire</string>
+    <string name="respirattion">respiration</string>
+    <string name="nouveau_bilan_secondaire">Nouveau Bilan Secondaire</string>
+    <string name="sauvegarder">SAUVEGARDER</string>
+    <string name="sur_1_minute">Sur 1 minute</string>
+    <string name="pouls">Pouls</string>
+    <string name="envoyer_mes_dispos">Envoyer mes dispos</string>
+    <string name="envoyer">Envoyer</string>
+    <string name="acc_s_refus">Accès refusé</string>
+    <string name="pharmacie">Pharmacie</string>
+    <string name="modifier_la_quantit">Modifier la quantité</string>
+    <string name="modifier_la_date_de_peremption">Modifier la date de peremption</string>
+    <string name="equipier_2">Equipier 2 :</string>
+    <string name="equipier_1">Equipier 1 :</string>
+    <string name="conducteur_pltt">Conducteur :</string>
+    <string name="chef_de_garde">Chef de Garde :</string>
+    <string-array name="planets_array">
+        <item>SAP2</item>
+        <item>SAP1</item>
+        <item>CPL</item>
+        <item>CCH</item>
+        <item>SGT</item>
+        <item>SCH</item>
+        <item>ADJ</item>
+        <item>ADC</item>
+        <item>LTN</item>
+    </string-array>
+</resources>
