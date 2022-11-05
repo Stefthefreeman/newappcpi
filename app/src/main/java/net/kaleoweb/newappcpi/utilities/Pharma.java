@@ -1,16 +1,34 @@
 package net.kaleoweb.newappcpi.utilities;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "pharmacie")
 public class Pharma {
-    
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name="id")
     private int id;
+    
+    @ColumnInfo(name="cat_id")
     private int cat_id;
+    
+    @ColumnInfo(name="description")
     private String description;
+    
+    @ColumnInfo(name="dotation")
     private int dotation;
+    
+    @ColumnInfo(name="restant")
     private int restant;
+    
+    @ColumnInfo(name="peremption")
     private String peremption;
+    
+    @ColumnInfo(name="bg")
     private int bg;
     
-    public Pharma(int id,int cat_id,String description,int dotation,int restant,String peremption,int bg) {
+    public Pharma(int cat_id,String description,int dotation,int restant,String peremption,int bg) {
      setId(id);
      setCat_id(cat_id);
      setDescription(description);

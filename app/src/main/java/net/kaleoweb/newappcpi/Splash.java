@@ -3,7 +3,7 @@ package net.kaleoweb.newappcpi;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.ui.AppBarConfiguration;
+
 
 import net.kaleoweb.newappcpi.dao.DaoModule;
 import net.kaleoweb.newappcpi.databases.UserDatabase;

@@ -39,13 +39,15 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
         if (mPharma != null) {
             Pharma current = mPharma.get(position);
             if (current.getBg() == 1) {
-                holder.interItemView.setBackgroundColor(Color.GREEN);
+                holder.interItemView.setBackgroundResource(R.color.green);
+            } else {
+                holder.interItemView.setBackgroundResource(R.color.redcustom);
             }
             holder.interItemView.setText(current.getDescription());
             holder.interItemView2.setText("Date de peremption: " + current.getPeremption());
             holder.interItemView4.setText("Dotation: " + current.getDotation());
             holder.interItemView5.setText("Restant: " + current.getRestant());
-            // holder.interItemView6.setText(getItemCount());
+            holder.interItemView6.setVisibility(View.GONE);
             
         } else {
             // Covers the case of data not being ready yet.
@@ -54,13 +56,6 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
         
     }
     
-    /*  public void setInters(List<PharmaViewModel.JsonLiveData.MyPharma> inter){
-          mPharma = inter;
-          
-          
-      }*/
-    // getItemCount() is called many times, and when it is first called,
-    // mWords has not been updated (means initially, it's null, and we can't return null).
     @Override
     public int getItemCount() {
         if (mPharma != null)
@@ -109,5 +104,12 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
     
     public void setOnItemClickListener(PharmaListAdapter.OnItemClickListener listener) {
         PharmaListAdapter.listener = listener;
+    }
+    
+    public void deleteItem(int position) {
+      
+        mPharma.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mPharma.size());
     }
 }

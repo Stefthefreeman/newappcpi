@@ -57,7 +57,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/modifier_la_quantit"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:numeric="integer"
                 android:padding="16dp"
                 tools:ignore="Deprecated" />

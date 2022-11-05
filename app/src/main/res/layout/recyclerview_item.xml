@@ -28,6 +28,7 @@
             style="@style/tv_main_gardes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textScaleX="0.80"
             android:layout_marginHorizontal="5dp"
             android:gravity="center_horizontal"
             android:padding="12dp"
@@ -59,6 +60,7 @@
             <TextView
                 android:id="@+id/peremption"
                 style="@style/tv_gardes_list"
+                android:textScaleX="0.80"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -81,12 +83,14 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="7dp"
+                android:textScaleX="0.80"
                 android:text="@string/conducteur_pltt"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/dotation"
+                android:textScaleX="0.80"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -104,6 +108,7 @@
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="150dp"
+                android:textScaleX="0.80"
                 android:layout_height="wrap_content"
                 android:paddingStart="7dp"
                 android:text="@string/equipier_1"
@@ -113,6 +118,7 @@
             <TextView
                 android:id="@+id/restant"
                 android:layout_width="0dp"
+                android:textScaleX="0.80"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="7dp"
@@ -128,6 +134,7 @@
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="150dp"
+                android:textScaleX="0.80"
                 android:layout_height="wrap_content"
                 android:paddingStart="7dp"
                 android:text="@string/equipier_2"
@@ -137,6 +144,7 @@
             <TextView
                 android:id="@+id/divers"
                 android:layout_width="0dp"
+                android:textScaleX="0.80"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="7dp"
@@ -153,6 +161,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:padding="12dp"
             android:textAllCaps="true"
+            android:textScaleX="0.80"
             android:textColor="@color/orangedark"
             android:textSize="20sp"
             android:textStyle="bold|italic" />
