@@ -19,6 +19,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import net.kaleoweb.newappcpi.Services.SetPharma;
 import net.kaleoweb.newappcpi.dao.DaoModule;
 import net.kaleoweb.newappcpi.databases.UserDatabase;
 import net.kaleoweb.newappcpi.databinding.ActivityMainBinding;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 //        mAuth = FirebaseAuth.getInstance();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        
      /*  SharedPreferences mgr = getSharedPreferences("Mes preferences",0);
        SharedPreferences.Editor edt = mgr.edit();
        edt.putString("nom","Stef");

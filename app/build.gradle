@@ -17,6 +17,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
     }
+    dataBinding {
+        enabled = true
+    }
 
 
     buildTypes {

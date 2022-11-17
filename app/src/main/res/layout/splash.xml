@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/logo_sp_beaumont_two"
-    android:clickable="false"><![CDATA[
-    android:id="@+id/therun">
-
-
-
-
-
-
-
-
-
-
-    ]]>
+    android:clickable="false">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -28,6 +17,34 @@
         android:layout_centerInParent="true"
         android:padding="5dp"
         app:srcCompat="@drawable/logosdis" />
+
+    <ImageView
+        android:id="@+id/warning"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@id/not_allowed"
+        android:layout_alignParentLeft="false"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        app:srcCompat="@drawable/pngegg" />
+
+    <TextView
+        android:id="@+id/not_allowed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/imageView2"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@color/CadetBlue"
+        android:gravity="center_horizontal"
+        android:shadowColor="@color/Black"
+        android:textColor="@color/AliceBlue"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        android:visibility="gone"
+        tools:visibility="gone" />
 
     <TextView
         android:id="@+id/appname"

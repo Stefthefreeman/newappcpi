@@ -29,22 +29,17 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private GardesListAdapter adapter;
     Intent myintent;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
        myintent = new Intent(getActivity(), SetGardes.class);
         requireActivity().startService(myintent);
-      /*  if(requireActivity().startService(myintent) != null) {
-            Toast.makeText(getContext(), "Service is already running", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(getContext(), "There is no service running, starting service..", Toast.LENGTH_SHORT).show();
-        }*/
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.recyclerview);
-        final GardesListAdapter adapter = new GardesListAdapter(getContext());
+        adapter = new GardesListAdapter(getContext());
        
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -87,9 +82,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        myintent = new Intent(getActivity(), SetGardes.class);
-        requireActivity().startService(myintent);
-        Log.i("onresume","TES");
+        Log.i("onresume","Datasetchanged");
+        adapter.notifyDataSetChanged();
     }
     
     @Override

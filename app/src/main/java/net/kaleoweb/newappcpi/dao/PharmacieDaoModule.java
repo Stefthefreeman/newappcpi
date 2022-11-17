@@ -8,7 +8,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import net.kaleoweb.newappcpi.utilities.Materiel;
+
 import net.kaleoweb.newappcpi.utilities.Pharma;
 
 import java.util.List;
@@ -26,6 +26,12 @@ public interface PharmacieDaoModule {
     @Delete
     void deletePharma(Pharma pharma);
     
+    @Query("DELETE from pharmacie")
+    int delete();
+    
+    @Query("UPDATE pharmacie SET restant = :restant, peremption = :peremp , bg = :bg WHERE id = :id")
+     int up(int restant,String peremp,int bg,int id);
+    
     @Query("Select * from pharmacie")
     LiveData<List<Pharma>> getAll();
     
@@ -34,6 +40,9 @@ public interface PharmacieDaoModule {
     
     @Query("Select * from pharmacie")
     Pharma gettout();
+    
+    @Query("Select * from pharmacie")
+    List<Pharma> getup();
     
     @Query("SELECT COUNT(*) FROM pharmacie")
     int count();

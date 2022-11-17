@@ -28,7 +28,10 @@ public class Pharma {
     @ColumnInfo(name="bg")
     private int bg;
     
-    public Pharma(int cat_id,String description,int dotation,int restant,String peremption,int bg) {
+    @ColumnInfo(name="web_id")
+    private int webid;
+    
+    public Pharma(int cat_id,String description,int dotation,int restant,String peremption,int bg,int webid) {
      setId(id);
      setCat_id(cat_id);
      setDescription(description);
@@ -36,6 +39,15 @@ public class Pharma {
      setRestant(restant);
      setPeremption(peremption);
      setBg(bg);
+     setWebid(webid);
+    }
+    
+    public int getWebid() {
+        return webid;
+    }
+    
+    public void setWebid(int webid) {
+        this.webid = webid;
     }
     
     public int getBg() {

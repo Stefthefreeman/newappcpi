@@ -1,11 +1,9 @@
 package ui.pharma;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,49 +31,93 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 
-import net.kaleoweb.newappcpi.MainActivity;
 import net.kaleoweb.newappcpi.R;
-import net.kaleoweb.newappcpi.Services.SetPharma;
-import net.kaleoweb.newappcpi.Splash;
 import net.kaleoweb.newappcpi.adapters.PharmaListAdapter;
+import net.kaleoweb.newappcpi.dao.PharmacieDaoModule;
+import net.kaleoweb.newappcpi.databases.PharmacieDatabase;
 import net.kaleoweb.newappcpi.databinding.FragmentPharmaBinding;
 import net.kaleoweb.newappcpi.utilities.Pharma;
 
-import java.util.Objects;
+import java.util.List;
 
 
 public class PharmaFragment extends Fragment {
     
     private PharmaViewModel mViewModel;
-    private FragmentPharmaBinding binding;
-    Intent myintent;
+    public FragmentPharmaBinding binding;
     private String dateup = null;
     private PharmaListAdapter pharmaListAdapter;
     private int quantite;
     private String dateperemp;
     private RecyclerView recyclerView;
-    private View root;
+    private PharmacieDaoModule pharmacieDaoModule;
+    private LifecycleRegistry lifecycleRegistry;
+    
+    private int bg;
     
     
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        requireActivity().startService(new Intent(getActivity(), SetPharma.class));
-        mViewModel =
-                new ViewModelProvider(requireActivity()).get(PharmaViewModel.class);
         
-        binding = FragmentPharmaBinding.inflate(inflater, container, false);
-        
-        root = inflater.inflate(R.layout.fragment_pharma, container, false);
-        
+        View root = inflater.inflate(R.layout.fragment_pharma, container, false);
         recyclerView = root.findViewById(R.id.pharmacie);
+        binding = FragmentPharmaBinding.inflate(getLayoutInflater());
+        mViewModel = new ViewModelProvider(requireActivity()).get(PharmaViewModel.class);
         
         pharmaListAdapter = new PharmaListAdapter(getContext());
-      
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        loadinfos();
+        mViewModel.getPostsList().observe(getViewLifecycleOwner(), pharmaListAdapter::setPharma);
+        recyclerView.setAdapter(pharmaListAdapter);
+        
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                // this method is called
+                // when the item is moved.
+                return false;
+            }
+            
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // this method is called when we swipe our item to right direction.
+                
+                
+                // below line is to get the position
+                // of the item at that position.
+                int position = viewHolder.getAdapterPosition();
+                
+                // this method is called when item is swiped.
+                // below line is to remove item from our array list.
+                Pharma deletedCourse = mViewModel.getPostsList().getValue().remove(position);
+                
+                // below line is to notify our item is removed from adapter.
+                pharmaListAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                try {
+                    // below line is to display our snackbar with action.
+                    Snackbar.make(recyclerView, deletedCourse.getDescription(), Snackbar.LENGTH_LONG).setAction("ANNULER", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // adding on click listener to our action of snack bar.
+                            // below line is to add our item to array list with a position.
+                            mViewModel.getPostsList().getValue().add(position, deletedCourse);
+                            
+                            // below line is to notify item is
+                            // added to our adapter class.
+                            pharmaListAdapter.notifyItemInserted(position);
+                        }
+                    }).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            // at last we are adding this
+            // to our recycler view.
+        }).attachToRecyclerView(recyclerView);
+        
+        
        
+        
         pharmaListAdapter.setOnItemClickListener(pharma -> {
             Log.i("desc", pharma.getDescription());
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -112,11 +155,21 @@ public class PharmaFragment extends Fragment {
                         dateperemp = pharma.getPeremption();
                         quantite = Integer.parseInt(myqte.getText().toString());
                     }
+                    PharmacieDatabase pharmacieDatabase = PharmacieDatabase.get(getActivity());
+                    pharmacieDaoModule = pharmacieDatabase.pharmacieDaoModule();
+                    Pharma pharma2 = pharmacieDaoModule.gettout();
                     
-                    sendUpdate(pharma.getId(), quantite, dateperemp);
-                    
-                    pharmaListAdapter.notifyItemChanged(pharma.getId());
-                    
+                    if (quantite <= pharma2.getDotation() / 2) {
+                        bg = 0;
+                    } else {
+                        bg = 1;
+                    }
+                    pharmacieDaoModule.up(quantite, dateperemp, bg, pharma.getId());
+                    System.out.println();
+                    sendUpdate(pharma.getWebid(), quantite, dateperemp);
+                    List<Pharma> pharma3 = pharmacieDaoModule.getup();
+                    pharmaListAdapter.onGo(pharma3);
+                    pharmaListAdapter.notifyDataSetChanged();
                     Toast.makeText(getContext(), pharma.getId() + " - " + quantite + " - " + dateperemp, Toast.LENGTH_LONG).show();
                     
                 } catch (Exception e) {
@@ -141,21 +194,26 @@ public class PharmaFragment extends Fragment {
         super.onDestroyView();
         binding = null;
         System.out.println("destroyed");
-        recyclerView.removeAllViews();
+        
     }
+   
     
     @Override
     public void onResume() {
         super.onResume();
         System.out.println("Onresume");
-        recyclerView.removeAllViews();
-        
-        
+        pharmaListAdapter.notifyDataSetChanged();
     }
-    public void loadinfos(){
     
+    private void runOnupdate(){
+    
+        pharmaListAdapter.notifyDataSetChanged();
+      
     }
+ 
+    
     private void sendUpdate(int id, int qte, String peremp) {
+        
         String URL = "https://cpi.agence-creation-sc.com/app/update_pharma.php?id=" + id + "&qte=" + qte + "&peremp=" + peremp;
         Log.i("URL", URL);
         RequestQueue queue = Volley.newRequestQueue(getActivity());

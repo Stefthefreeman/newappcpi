@@ -12,8 +12,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import net.kaleoweb.newappcpi.MainActivity;
 import net.kaleoweb.newappcpi.R;
+import net.kaleoweb.newappcpi.Splash;
 import net.kaleoweb.newappcpi.databases.UserDatabase;
 import net.kaleoweb.newappcpi.utilities.User;
 
@@ -53,10 +61,8 @@ public class StoreUser extends AppCompatActivity {
                 
                 Toast.makeText(this, "Tout les champs doivent être remplis", Toast.LENGTH_LONG).show();
             } else {
-                testDb(nameagent, surname, moncentre, mygrade);
-                Toast.makeText(this, "Enregistrement reussi!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                verifyUser(nameagent, surname, moncentre, mygrade);
+                
             }
         }));
         
@@ -91,5 +97,45 @@ public class StoreUser extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     
+    private void verifyUser(String nom, String prenom, String centre, String grade) {
+        
+        String URL = "https://cpi.agence-creation-sc.com/app/verify_user.php?nom=" + nom.toUpperCase().trim();
+        Log.i("URL", URL);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        
+        
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("reponse" + response);
+                        goahead(response, nom, prenom, centre, grade);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            
+            }
+        });
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+        
+    }
+    
+    public void goahead(String reponse, String nom, String prenom, String centre, String grade) {
+        if (reponse.equals("OK")) {
+            testDb(nom,prenom,centre,grade);
+            Toast.makeText(this, "Enregistrement reussi!", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, Splash.class);
+            intent.putExtra("notallowed","true");
+            startActivity(intent);
+        }
+        
+    }
     
 }

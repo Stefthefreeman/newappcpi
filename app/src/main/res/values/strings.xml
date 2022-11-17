@@ -43,6 +43,9 @@
     <string name="equipier_1">Equipier 1 :</string>
     <string name="conducteur_pltt">Conducteur :</string>
     <string name="chef_de_garde">Chef de Garde :</string>
+    <string name="mettre_a_jour">METTRE A JOUR</string>
+    <string name="recherche">Recherche</string>
+    <string name="notallowed">ERREUR! \nVOUS N\'ÊTES PAS AUTORISÉ.E A UTILISER CETTE APPLICATION</string>
     <string-array name="planets_array">
         <item>SAP2</item>
         <item>SAP1</item>

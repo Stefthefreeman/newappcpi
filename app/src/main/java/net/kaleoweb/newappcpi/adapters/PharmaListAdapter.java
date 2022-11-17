@@ -8,13 +8,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.kaleoweb.newappcpi.R;
+import net.kaleoweb.newappcpi.utilities.MyDiffUtil;
 import net.kaleoweb.newappcpi.utilities.Pharma;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.PharmaViewHolder> {
@@ -22,7 +25,7 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
     private final LayoutInflater mInflater;
     private static List<Pharma> mPharma;
     private static PharmaListAdapter.OnItemClickListener listener;
-    
+    boolean hasStableIds;
     public PharmaListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
@@ -36,12 +39,15 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
     
     @Override
     public void onBindViewHolder(@NotNull PharmaViewHolder holder, int position) {
+        hasStableIds= true;
         if (mPharma != null) {
             Pharma current = mPharma.get(position);
             if (current.getBg() == 1) {
-                holder.interItemView.setBackgroundResource(R.color.green);
+                holder.interItemViewleft.setBackgroundResource(R.color.green);
+                holder.interItemViewright.setBackgroundResource(R.color.green);
             } else {
-                holder.interItemView.setBackgroundResource(R.color.redcustom);
+                holder.interItemViewleft.setBackgroundResource(R.color.redcustom);
+                holder.interItemViewright.setBackgroundResource(R.color.redcustom);
             }
             holder.interItemView.setText(current.getDescription());
             holder.interItemView2.setText("Date de peremption: " + current.getPeremption());
@@ -67,13 +73,20 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
         mPharma = g;
     }
     
+    public void onGo(List<Pharma> newPharma){
+       DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffUtil(mPharma,newPharma));
+        diffResult.dispatchUpdatesTo(this);
+        mPharma.clear();
+        mPharma.addAll(newPharma);
+    }
     static class PharmaViewHolder extends RecyclerView.ViewHolder {
         private final TextView interItemView;
         private final TextView interItemView2;
         private final TextView interItemView4;
         private final TextView interItemView5;
         private final TextView interItemView6;
-        
+        private final TextView interItemViewright;
+        private final TextView interItemViewleft;
         
         private PharmaViewHolder(View itemView) {
             super(itemView);
@@ -82,6 +95,8 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
             interItemView4 = itemView.findViewById(R.id.dotation);
             interItemView5 = itemView.findViewById(R.id.restant);
             interItemView6 = itemView.findViewById(R.id.divers);
+            interItemViewright = itemView.findViewById(R.id.txtright);
+            interItemViewleft = itemView.findViewById(R.id.txtleft);
             
             
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -106,10 +121,16 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
         PharmaListAdapter.listener = listener;
     }
     
+   
+    
     public void deleteItem(int position) {
       
         mPharma.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, mPharma.size());
+    }
+    @Override
+    public long getItemId(int position) {
+        return mPharma.get(position).getId();
     }
 }

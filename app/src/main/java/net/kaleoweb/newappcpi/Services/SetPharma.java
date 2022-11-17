@@ -17,7 +17,6 @@ import com.android.volley.toolbox.Volley;
 
 import net.kaleoweb.newappcpi.dao.PharmacieDaoModule;
 import net.kaleoweb.newappcpi.databases.PharmacieDatabase;
-import net.kaleoweb.newappcpi.utilities.Gardes;
 import net.kaleoweb.newappcpi.utilities.Pharma;
 
 import org.json.JSONArray;
@@ -29,10 +28,8 @@ import java.util.List;
 
 public class SetPharma extends Service {
     private PharmacieDaoModule pharmacieDaoModule;
-    private LiveData<List<Pharma>> mPharma;
+   
     
-    
-    private MutableLiveData<List<Pharma>> mutableLiveData = new MutableLiveData<>();
     
     
     @Nullable
@@ -45,16 +42,15 @@ public class SetPharma extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        try{
+        try {
             PharmacieDatabase pharmacieDatabase = PharmacieDatabase.get(this);
             pharmacieDaoModule = pharmacieDatabase.pharmacieDaoModule();
-            mPharma = pharmacieDaoModule.getAll();
-            if(mPharma == null){
-                readStream();
-            }
+           
+            
+            readStream();
             
             
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -73,8 +69,8 @@ public class SetPharma extends Service {
         try {
             
             
-            Log.i("response", response.toString());
-            JSONArray jsonArray = response.getJSONArray("ui/pharma");
+            System.out.println("response" + response.toString());
+            JSONArray jsonArray = response.getJSONArray("pharma");
             
             ArrayList<SetGardes.MyGardes> listInters = new ArrayList<>();
             
@@ -123,13 +119,13 @@ public class SetPharma extends Service {
         
     }
     
-    public void storePharma(MyPharma myPharma){
+    public void storePharma(MyPharma myPharma) {
         
-        Pharma insertPharma = new Pharma(myPharma.cat_id,myPharma.designation,myPharma.dotation,myPharma.restant,myPharma.peremption,myPharma.bg);
+        Pharma insertPharma = new Pharma(myPharma.cat_id, myPharma.designation, myPharma.dotation, myPharma.restant, myPharma.peremption, myPharma.bg, myPharma.id);
+        System.out.println(myPharma.designation);
         
-                if(pharmacieDaoModule.count() == 0){
-                    pharmacieDaoModule.insertPharma(insertPharma);
-                }
+        pharmacieDaoModule.insertPharma(insertPharma);
+        
         
     }
 }
