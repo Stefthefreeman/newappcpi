@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="7dp">
@@ -53,27 +54,26 @@
 
             <TextView
                 android:id="@+id/textView11"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/shape_bilan"
+                android:layout_weight="0.33"
+                android:background="@drawable/customblueshape"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/tension_art_rielle"
                 android:textAllCaps="true"
-                android:typeface="sans" />
+                android:typeface="normal" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="8dp"
+                android:layout_weight="0.33"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textColorHint="@color/AliceBlue">
 
                 <EditText
                     android:id="@+id/diastole"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/etxt_diastole"
                     android:layout_centerHorizontal="false"
@@ -88,23 +88,22 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="8dp"
+                android:layout_weight="0.33"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textColorHint="@color/AliceBlue">
 
                 <EditText
                     android:id="@+id/systole"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/etxt_systole"
                     android:layout_centerHorizontal="false"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:background="#FF6E6A6A"
                     android:hint="@string/systole"
                     android:inputType="number"
@@ -127,17 +126,16 @@
                 android:id="@+id/textView12"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/shape_bilan"
+                android:layout_weight="0.33"
+                android:background="@drawable/customblueshape"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/lepouls"
                 android:textAllCaps="true" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="8dp"
+                android:layout_weight="0.5"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textColorHint="@color/AliceBlue">
@@ -173,17 +171,16 @@
                 android:id="@+id/textView13"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/shape_bilan"
+                android:layout_weight="0.33"
+                android:background="@drawable/customblueshape"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/glycemie"
                 android:textAllCaps="true" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="8dp"
+                android:layout_weight="0.5"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textColorHint="@color/AliceBlue">
@@ -219,17 +216,16 @@
                 android:id="@+id/textView14"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/shape_bilan"
+                android:layout_weight="0.33"
+                android:background="@drawable/customblueshape"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/temp_rature"
                 android:textAllCaps="true" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="8dp"
+                android:layout_weight="0.5"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textColorHint="@color/AliceBlue">
@@ -264,17 +260,16 @@
                 android:id="@+id/textView15"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/shape_bilan"
+                android:layout_weight="0.33"
+                android:background="@drawable/customblueshape"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/fr_quence_respiratoire"
                 android:textAllCaps="true" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="8dp"
+                android:layout_weight="0.5"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textColorHint="@color/AliceBlue">
@@ -313,9 +308,11 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/DarkSlateGray"
+                android:backgroundTint="@color/DarkGray"
                 android:text="@string/sauvegarder"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                app:icon="@drawable/ambulance"
+                app:iconTint="@color/Crimson" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -31,7 +31,10 @@ public class Pharma {
     @ColumnInfo(name="web_id")
     private int webid;
     
-    public Pharma(int cat_id,String description,int dotation,int restant,String peremption,int bg,int webid) {
+    @ColumnInfo(name="isperemp")
+    private int ispremp;
+    
+    public Pharma(int cat_id,String description,int dotation,int restant,String peremption,int bg,int webid,int ispremp) {
      setId(id);
      setCat_id(cat_id);
      setDescription(description);
@@ -40,6 +43,15 @@ public class Pharma {
      setPeremption(peremption);
      setBg(bg);
      setWebid(webid);
+     setIspremp(ispremp);
+    }
+    
+    public int getIspremp() {
+        return ispremp;
+    }
+    
+    public void setIspremp(int ispremp) {
+        this.ispremp = ispremp;
     }
     
     public int getWebid() {
@@ -116,6 +128,7 @@ public class Pharma {
                 ", restant=" + restant +
                 ", peremption='" + peremption + '\'' +
                 ", bg=" + bg +
+                ", bg=" + ispremp +
                 '}';
     }
 }

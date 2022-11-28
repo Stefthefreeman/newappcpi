@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "246216439272",
+    "project_id": "sdis-vaucluse",
+    "storage_bucket": "sdis-vaucluse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246216439272:android:be18eb49d6d245b88ce05d",
+        "android_client_info": {
+          "package_name": "net.kaleoweb.newappcpi.redFlavor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246216439272-m2s4te266t42k90padmg4nctjeqittu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhNDeluT0ffOIZPvXJlw02WK3lYBuZEZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246216439272-m2s4te266t42k90padmg4nctjeqittu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

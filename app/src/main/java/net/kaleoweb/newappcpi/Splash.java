@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -18,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import net.kaleoweb.newappcpi.Services.SetPharma;
 import net.kaleoweb.newappcpi.dao.DaoModule;
+import net.kaleoweb.newappcpi.dao.DisposDao;
 import net.kaleoweb.newappcpi.dao.PharmacieDaoModule;
+import net.kaleoweb.newappcpi.databases.DisposDatabase;
 import net.kaleoweb.newappcpi.databases.PharmacieDatabase;
 import net.kaleoweb.newappcpi.databases.UserDatabase;
 import net.kaleoweb.newappcpi.utilities.Inventory;
@@ -35,6 +36,7 @@ public class Splash extends AppCompatActivity {
     private int progressStatus = 0;
     private TextView textView;
     private PharmacieDaoModule pharmacieDaoModule;
+    private DisposDao disposDao;
     private TextView notallowed;
     private ImageView warning;
     private Handler handler = new Handler();
@@ -67,12 +69,14 @@ public class Splash extends AppCompatActivity {
             
             PharmacieDatabase pharmacieDatabase = PharmacieDatabase.get(this);
             pharmacieDaoModule = pharmacieDatabase.pharmacieDaoModule();
+            DisposDatabase disposDatabase = DisposDatabase.get(this);
+            disposDao = disposDatabase.disposDao();
             try {
         
                 if (pharmacieDaoModule.gettout() == null) {
                     this.startService(new Intent(this, SetPharma.class));
                 }
-        
+               
             } catch (Exception e) {
                 e.printStackTrace();
             }

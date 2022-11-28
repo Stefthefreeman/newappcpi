@@ -72,7 +72,6 @@ public class SetPharma extends Service {
             System.out.println("response" + response.toString());
             JSONArray jsonArray = response.getJSONArray("pharma");
             
-            ArrayList<SetGardes.MyGardes> listInters = new ArrayList<>();
             
             int longueur = jsonArray.length();
             for (int i = 0; i < longueur; i++) {
@@ -85,6 +84,7 @@ public class SetPharma extends Service {
                 myPharma.restant = jsonObject.getInt("restant");
                 myPharma.peremption = jsonObject.getString("peremption");
                 myPharma.bg = jsonObject.getInt("bg");
+                myPharma.isperemp = jsonObject.getInt("isperemp");
                 storePharma(myPharma);
             }
             
@@ -116,15 +116,18 @@ public class SetPharma extends Service {
         public int restant;
         public String peremption;
         public int bg;
+        public int isperemp;
         
     }
     
     public void storePharma(MyPharma myPharma) {
         
-        Pharma insertPharma = new Pharma(myPharma.cat_id, myPharma.designation, myPharma.dotation, myPharma.restant, myPharma.peremption, myPharma.bg, myPharma.id);
-        System.out.println(myPharma.designation);
         
-        pharmacieDaoModule.insertPharma(insertPharma);
+    
+            Pharma insertPharma = new Pharma(myPharma.cat_id, myPharma.designation, myPharma.dotation, myPharma.restant, myPharma.peremption, myPharma.bg, myPharma.id,myPharma.isperemp);
+            System.out.println(myPharma.designation);
+    
+            pharmacieDaoModule.insertPharma(insertPharma);
         
         
     }

@@ -2,6 +2,7 @@ package net.kaleoweb.newappcpi.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
     private static List<Pharma> mPharma;
     private static PharmaListAdapter.OnItemClickListener listener;
     boolean hasStableIds;
+    
     public PharmaListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
@@ -39,7 +41,7 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
     
     @Override
     public void onBindViewHolder(@NotNull PharmaViewHolder holder, int position) {
-        hasStableIds= true;
+        hasStableIds = true;
         if (mPharma != null) {
             Pharma current = mPharma.get(position);
             if (current.getBg() == 1) {
@@ -49,11 +51,32 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
                 holder.interItemViewleft.setBackgroundResource(R.color.redcustom);
                 holder.interItemViewright.setBackgroundResource(R.color.redcustom);
             }
-            holder.interItemView.setText(current.getDescription());
-            holder.interItemView2.setText("Date de peremption: " + current.getPeremption());
-            holder.interItemView4.setText("Dotation: " + current.getDotation());
-            holder.interItemView5.setText("Restant: " + current.getRestant());
-            holder.interItemView6.setVisibility(View.GONE);
+            switch(current.getIspremp() ){
+                case 0:
+                    holder.interItemView6.setVisibility(View.GONE);
+                    holder.interItemView.setText(current.getDescription());
+                    holder.interItemView2.setVisibility(View.VISIBLE);
+                    holder.interItemView2.setText("Date de peremption: " + current.getPeremption());
+                    holder.interItemView4.setText("Dotation: " + current.getDotation());
+                    holder.interItemView5.setText("Restant: " + current.getRestant());
+                   
+                    break;
+                case 1:
+                    holder.interItemView2.setVisibility(View.GONE);
+                    holder.interItemView6.setVisibility(View.VISIBLE);
+                    holder.interItemView6.setText("PAS DE DATE PEREMPTION");
+                    holder.interItemView6.setGravity(Gravity.CENTER);
+                    holder.interItemView6.setBackgroundResource(R.color.beaumontblue);
+                    holder.interItemView.setText(current.getDescription());
+                    holder.interItemView2.setText("Date de peremption: " + current.getPeremption());
+                    holder.interItemView4.setText("Dotation: " + current.getDotation());
+                    holder.interItemView5.setText("Restant: " + current.getRestant());
+                    break;
+                default:
+                
+            }
+           
+            
             
         } else {
             // Covers the case of data not being ready yet.
@@ -73,12 +96,13 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
         mPharma = g;
     }
     
-    public void onGo(List<Pharma> newPharma){
-       DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffUtil(mPharma,newPharma));
+    public void onGo(List<Pharma> newPharma) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffUtil(mPharma, newPharma));
         diffResult.dispatchUpdatesTo(this);
         mPharma.clear();
         mPharma.addAll(newPharma);
     }
+    
     static class PharmaViewHolder extends RecyclerView.ViewHolder {
         private final TextView interItemView;
         private final TextView interItemView2;
@@ -121,14 +145,14 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
         PharmaListAdapter.listener = listener;
     }
     
-   
     
     public void deleteItem(int position) {
-      
+        
         mPharma.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, mPharma.size());
     }
+    
     @Override
     public long getItemId(int position) {
         return mPharma.get(position).getId();

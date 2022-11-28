@@ -1,16 +1,25 @@
 package net.kaleoweb.newappcpi;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,14 +27,23 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListUpdateCallback;
 
 import net.kaleoweb.newappcpi.Services.SetPharma;
+import net.kaleoweb.newappcpi.adapters.PharmaListAdapter;
 import net.kaleoweb.newappcpi.dao.DaoModule;
+import net.kaleoweb.newappcpi.dao.PharmacieDaoModule;
+import net.kaleoweb.newappcpi.databases.PharmacieDatabase;
 import net.kaleoweb.newappcpi.databases.UserDatabase;
 import net.kaleoweb.newappcpi.databinding.ActivityMainBinding;
 import net.kaleoweb.newappcpi.forms.StoreUser;
 import net.kaleoweb.newappcpi.utilities.Inventory;
+import net.kaleoweb.newappcpi.utilities.MyDiffUtil;
+import net.kaleoweb.newappcpi.utilities.Pharma;
 import net.kaleoweb.newappcpi.utilities.User;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     
@@ -39,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 //        mAuth = FirebaseAuth.getInstance();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        
+        this.stopService(new Intent(this,SetPharma.class));
      /*  SharedPreferences mgr = getSharedPreferences("Mes preferences",0);
        SharedPreferences.Editor edt = mgr.edit();
        edt.putString("nom","Stef");
@@ -49,14 +67,7 @@ public class MainActivity extends AppCompatActivity {
         //  Toast.makeText(this, nom, Toast.LENGTH_SHORT).show();
         
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                
-                Intent p = new Intent(MainActivity.this, GetDispos.class);
-                startActivity(p);
-            }
-        });
+       
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         View v = navigationView.getHeaderView(0);
@@ -65,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
         DaoModule daoModule;
         UserDatabase userDatabase = UserDatabase.get(this);
         daoModule = userDatabase.daoModule();
-        
-        
+    
         User userdatas = daoModule.getById(1);
         if (userdatas == null) {
             // Toast.makeText(this,"VOUS DEVEZ VOUS ENREGISTRER POUR UTILISER L'APPLICATION",Toast.LENGTH_LONG).show();
@@ -82,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.pharmacie)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.pharmacie,R.id.nav_pharma,R.id.nav_dispos)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -121,6 +131,10 @@ public class MainActivity extends AppCompatActivity {
                 this.startActivity(change);
                 myAlertDialog();
                 break;
+            case R.id.menu_refresh:
+               
+                break;
+            
             default:
                 return super.onOptionsItemSelected(item);
             
@@ -141,6 +155,5 @@ public class MainActivity extends AppCompatActivity {
         
         alertDialog.show();
     }
-    
     
 }

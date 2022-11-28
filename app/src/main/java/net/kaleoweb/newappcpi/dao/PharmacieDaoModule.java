@@ -26,7 +26,7 @@ public interface PharmacieDaoModule {
     @Delete
     void deletePharma(Pharma pharma);
     
-    @Query("DELETE from pharmacie")
+    @Query("delete from pharmacie")
     int delete();
     
     @Query("UPDATE pharmacie SET restant = :restant, peremption = :peremp , bg = :bg WHERE id = :id")

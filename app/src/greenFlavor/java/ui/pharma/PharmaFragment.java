@@ -2,14 +2,19 @@ package ui.pharma;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +38,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
 
+import net.kaleoweb.newappcpi.MyDialog;
 import net.kaleoweb.newappcpi.R;
+import net.kaleoweb.newappcpi.Services.SetPharma;
 import net.kaleoweb.newappcpi.adapters.PharmaListAdapter;
 import net.kaleoweb.newappcpi.dao.PharmacieDaoModule;
 import net.kaleoweb.newappcpi.databases.PharmacieDatabase;
@@ -41,6 +48,7 @@ import net.kaleoweb.newappcpi.databinding.FragmentPharmaBinding;
 import net.kaleoweb.newappcpi.utilities.Pharma;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class PharmaFragment extends Fragment {
@@ -53,7 +61,8 @@ public class PharmaFragment extends Fragment {
     private String dateperemp;
     private RecyclerView recyclerView;
     private PharmacieDaoModule pharmacieDaoModule;
-    private LifecycleRegistry lifecycleRegistry;
+    private Button refresh;
+    
     
     private int bg;
     
@@ -63,13 +72,41 @@ public class PharmaFragment extends Fragment {
         
         View root = inflater.inflate(R.layout.fragment_pharma, container, false);
         recyclerView = root.findViewById(R.id.pharmacie);
+        refresh = root.findViewById(R.id.buttonRefresh);
         binding = FragmentPharmaBinding.inflate(getLayoutInflater());
-        mViewModel = new ViewModelProvider(requireActivity()).get(PharmaViewModel.class);
-        
+        mViewModel = new ViewModelProvider(getActivity()).get(PharmaViewModel.class);
+        MyDialog myDialog = new MyDialog(requireContext());
         pharmaListAdapter = new PharmaListAdapter(getContext());
         mViewModel.getPostsList().observe(getViewLifecycleOwner(), pharmaListAdapter::setPharma);
         recyclerView.setAdapter(pharmaListAdapter);
-        
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    myDialog.show();
+                    PharmacieDatabase pharmacieDatabase = PharmacieDatabase.get(getActivity());
+                    pharmacieDaoModule = pharmacieDatabase.pharmacieDaoModule();
+                    pharmacieDaoModule.delete();
+                    getContext().startService(new Intent(getContext(), SetPharma.class));
+                    new Handler().postDelayed(new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                            
+                            List<Pharma> pharma4 = pharmacieDaoModule.getup();
+                            pharmaListAdapter.onGo(pharma4);
+                            System.out.println(pharma4);
+                            pharmaListAdapter.notifyDataSetChanged();
+                            myDialog.dismiss();
+                        }
+                    }, 1000);
+                    
+                    getContext().stopService(new Intent(getContext(), SetPharma.class));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -115,8 +152,6 @@ public class PharmaFragment extends Fragment {
             // to our recycler view.
         }).attachToRecyclerView(recyclerView);
         
-        
-       
         
         pharmaListAdapter.setOnItemClickListener(pharma -> {
             Log.i("desc", pharma.getDescription());
@@ -170,7 +205,7 @@ public class PharmaFragment extends Fragment {
                     List<Pharma> pharma3 = pharmacieDaoModule.getup();
                     pharmaListAdapter.onGo(pharma3);
                     pharmaListAdapter.notifyDataSetChanged();
-                    Toast.makeText(getContext(), pharma.getId() + " - " + quantite + " - " + dateperemp, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), pharma.getWebid() + " - " + quantite + " - " + dateperemp, Toast.LENGTH_LONG).show();
                     
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -196,7 +231,7 @@ public class PharmaFragment extends Fragment {
         System.out.println("destroyed");
         
     }
-   
+    
     
     @Override
     public void onResume() {
@@ -205,10 +240,10 @@ public class PharmaFragment extends Fragment {
         pharmaListAdapter.notifyDataSetChanged();
     }
     
-    private void runOnupdate(){
-    
+    private void runOnupdate() {
+        
         pharmaListAdapter.notifyDataSetChanged();
-      
+        
     }
  
     
@@ -225,7 +260,7 @@ public class PharmaFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                     
-                    
+                    System.out.println(response);
                     }
                 }, new Response.ErrorListener() {
             @Override

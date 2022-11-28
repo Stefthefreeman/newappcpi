@@ -46,6 +46,10 @@
     <string name="mettre_a_jour">METTRE A JOUR</string>
     <string name="recherche">Recherche</string>
     <string name="notallowed">ERREUR! \nVOUS N\'ÊTES PAS AUTORISÉ.E A UTILISER CETTE APPLICATION</string>
+    <string name="test">test</string>
+    <string name="metrre_jour">Mettre à jour</string>
+    <string name="mes_dispo">Mes disponibilités</string>
+    <string name="msg_token_fmt">token</string>
     <string-array name="planets_array">
         <item>SAP2</item>
         <item>SAP1</item>

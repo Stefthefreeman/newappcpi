@@ -28,4 +28,10 @@
         android:name="ui.pharma.PharmaFragment"
         android:label="Pharmacie"
         tools:layout="@layout/fragment_pharma" />
+
+    <fragment
+        android:id="@+id/nav_dispos"
+        android:name="net.kaleoweb.newappcpi.ui.disponibilites.DisponibilitesFragment"
+        android:label="Mes dispos"
+        tools:layout="@layout/fragment_dispnibilites" />
 </navigation>

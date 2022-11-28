@@ -61,6 +61,7 @@
             </intent-filter>
         </service>
         <service android:name=".Services.SetPharma" />
+        <service android:name=".Services.GetDisposService" />
     </application>
 
 </manifest>

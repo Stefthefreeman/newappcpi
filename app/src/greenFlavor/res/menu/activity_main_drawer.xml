@@ -21,5 +21,10 @@
             android:icon="@drawable/caducee"
             android:iconTint="@color/Crimson"
             android:title="@string/pharmacie" />
+
+        <item
+            android:id="@+id/nav_dispos"
+            android:icon="@drawable/calendrier"
+            android:title="@string/mes_dispo" />
     </group>
 </menu>

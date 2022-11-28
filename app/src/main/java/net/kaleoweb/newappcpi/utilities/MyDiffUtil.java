@@ -57,7 +57,7 @@ public class MyDiffUtil extends DiffUtil.Callback{
             }
             
             if (newContact.getRestant() != oldContact.getRestant()){
-                bundle.putInt("mobile",newContact.getRestant());
+                bundle.putInt("Restant",newContact.getRestant());
             }
             
             if (bundle.size()==0){

@@ -26,21 +26,22 @@ import net.kaleoweb.newappcpi.databinding.FragmentHomeBinding;
 import net.kaleoweb.newappcpi.utilities.Gardes;
 
 public class HomeFragment extends Fragment {
-
+    
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     private GardesListAdapter adapter;
     Intent myintent;
+    
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-       myintent = new Intent(getActivity(), SetGardes.class);
-        requireActivity().startService(myintent);
+        myintent = new Intent(getActivity(), SetGardes.class);
+        getActivity().startService(myintent);
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.recyclerview);
         adapter = new GardesListAdapter(getContext());
-       
+        
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);
@@ -50,15 +51,15 @@ public class HomeFragment extends Fragment {
         adapter.setOnItemClickListener(new GardesListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Gardes gardes) {
-                Log.i("chef",gardes.getConducteur());
+                Log.i("chef", gardes.getConducteur());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("GARDE du " +gardes.getDate());
+                builder.setTitle("GARDE du " + gardes.getDate());
                 builder.setIcon(R.drawable.ambulance);
-                builder.setMessage("CHEF DE GARDE :" + gardes.getChef()+"\n"+"CONDUCTEUR PLTT:" +gardes.getConducteur()+"\n"+"EQUIPIER 1:" +gardes.getEquipier1()+"\n"+"EQUIPIER 2:" +gardes.getEquipier2());
+                builder.setMessage("CHEF DE GARDE :" + gardes.getChef() + "\n" + "CONDUCTEUR PLTT:" + gardes.getConducteur() + "\n" + "EQUIPIER 1:" + gardes.getEquipier1() + "\n" + "EQUIPIER 2:" + gardes.getEquipier2());
                 builder.setPositiveButton("FERMER", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
+                        dialog.cancel();
                     }
                 });
                 builder.setNegativeButton("SUPPRIMER", new DialogInterface.OnClickListener() {
@@ -75,14 +76,14 @@ public class HomeFragment extends Fragment {
                 dialog.show();
             }
         });
-    
+        
         return root;
     }
     
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("onresume","Datasetchanged");
+        Log.i("onresume", "Datasetchanged");
         adapter.notifyDataSetChanged();
     }
     
