@@ -19,6 +19,8 @@ import android.widget.Button;
 
 import net.kaleoweb.newappcpi.GetDispos;
 import net.kaleoweb.newappcpi.R;
+import net.kaleoweb.newappcpi.Services.GetDisposService;
+import net.kaleoweb.newappcpi.Services.SetPharma;
 import net.kaleoweb.newappcpi.adapters.DispoListAdapter;
 import net.kaleoweb.newappcpi.dao.DaoModule;
 import net.kaleoweb.newappcpi.dao.DisposDao;
@@ -61,6 +63,9 @@ public class DisponibilitesFragment extends Fragment {
         user = daoModule.getById(1);
         disposDatabase = DisposDatabase.get(getActivity());
         disposDao = disposDatabase.disposDao();
+        if(mViewModel.getdispos().getValue() == null){
+            getActivity().startService(new Intent(getActivity(), GetDisposService.class));
+        }
         Intent modif = new Intent(getActivity(), GetDispos.class);
         dispoListAdapter = new DispoListAdapter(getContext());
         mViewModel.getdispos().observe(getViewLifecycleOwner(), DispoListAdapter::setDispos);
