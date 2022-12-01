@@ -45,8 +45,8 @@ public class PharmaListAdapter extends RecyclerView.Adapter<PharmaListAdapter.Ph
         if (mPharma != null) {
             Pharma current = mPharma.get(position);
             if (current.getBg() == 1) {
-                holder.interItemViewleft.setBackgroundResource(R.color.green);
-                holder.interItemViewright.setBackgroundResource(R.color.green);
+                holder.interItemViewleft.setBackgroundResource(R.color.Chartreuse);
+                holder.interItemViewright.setBackgroundResource(R.color.Chartreuse);
             } else {
                 holder.interItemViewleft.setBackgroundResource(R.color.redcustom);
                 holder.interItemViewright.setBackgroundResource(R.color.redcustom);

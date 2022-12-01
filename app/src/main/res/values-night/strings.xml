@@ -49,6 +49,7 @@
     <string name="metrre_jour">Mettre à jour</string>
     <string name="mes_dispo">Mes disponibilités</string>
     <string name="msg_token_fmt"></string>
+    <string name="grd_no_edit">Les gardes n\'ont pas encore été publiées!</string>
     <string-array name="planets_array">
         <item>SAP2</item>
         <item>SAP1</item>

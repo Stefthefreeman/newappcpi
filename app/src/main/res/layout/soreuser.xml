@@ -14,7 +14,7 @@
         android:padding="15dp">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/headerImgView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/logosdis" />

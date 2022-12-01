@@ -16,6 +16,7 @@ import net.kaleoweb.newappcpi.utilities.Gardes;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Random;
 
 public class GardesListAdapter extends RecyclerView.Adapter<GardesListAdapter.InterViewHolder> {
     
@@ -38,6 +39,9 @@ public class GardesListAdapter extends RecyclerView.Adapter<GardesListAdapter.In
     @Override
     public void onBindViewHolder(@NotNull InterViewHolder holder, int position) {
         if (mGardes != null) {
+            int[] images = {R.drawable.ourccf, R.drawable.vsav, R.drawable.canadair, R.drawable.ffi, R.drawable.ccfm
+                           ,R.drawable.pmp,R.drawable.rescue};
+            Random random = new Random();
             Gardes current = mGardes.get(position);
             holder.interItemView.setText(current.getDate());
             holder.interItemView2.setText(current.getChef());
@@ -49,7 +53,8 @@ public class GardesListAdapter extends RecyclerView.Adapter<GardesListAdapter.In
             if (current.getPresence() == 0) {
                 holder.imageView.setVisibility(View.GONE);
             }
-            
+            holder.headerImgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            holder.headerImgView.setImageResource(images[random.nextInt(images.length)]);
             
         } else {
             // Covers the case of data not being ready yet.
@@ -81,6 +86,7 @@ public class GardesListAdapter extends RecyclerView.Adapter<GardesListAdapter.In
         private final TextView interItemView5;
         private final TextView interItemView6;
         private final ImageView imageView;
+        private final ImageView headerImgView;
         
         private InterViewHolder(View itemView) {
             super(itemView);
@@ -91,6 +97,7 @@ public class GardesListAdapter extends RecyclerView.Adapter<GardesListAdapter.In
             interItemView6 = itemView.findViewById(R.id.divers);
             interItemView3 = itemView.findViewById(R.id.consignes);
             imageView = itemView.findViewById(R.id.imageView3);
+            headerImgView = itemView.findViewById(R.id.headerImgView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 
                 @Override

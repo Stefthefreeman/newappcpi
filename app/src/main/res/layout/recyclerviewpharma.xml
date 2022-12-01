@@ -12,12 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:background="#333333"
+        android:background="@color/gray"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/TealOpacity"
             android:orientation="horizontal">
 
             <TextView
@@ -31,10 +32,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="0.5"
-                android:background="@color/CadetBlue"
+                android:layout_weight="0.80"
                 android:gravity="center_horizontal"
                 android:padding="12dp"
+                android:scaleX="0.90"
                 android:text="@string/test"
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
