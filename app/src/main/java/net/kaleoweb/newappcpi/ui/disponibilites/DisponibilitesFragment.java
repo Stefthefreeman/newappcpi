@@ -3,6 +3,7 @@ package net.kaleoweb.newappcpi.ui.disponibilites;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,13 +39,8 @@ public class DisponibilitesFragment extends Fragment {
     
     private DisponibilitesViewModel mViewModel;
     
-    private RecyclerView mrecycler;
     private DispoListAdapter dispoListAdapter;
-    private Button adddispo;
     private DisposDao disposDao;
-    private DisposDatabase disposDatabase;
-    private User user;
-    private List<Dispos> mDispos;
     
     
     public static DisponibilitesFragment newInstance() {
@@ -56,21 +52,22 @@ public class DisponibilitesFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_dispnibilites, container, false);
         mViewModel = new ViewModelProvider(this).get(DisponibilitesViewModel.class);
-        mrecycler = root.findViewById(R.id.disporecyclerview);
-        adddispo = root.findViewById(R.id.btnaddispo);
+        RecyclerView mrecycler = root.findViewById(R.id.disporecyclerview);
+        Button adddispo = root.findViewById(R.id.btnaddispo);
         UserDatabase userDatabase = UserDatabase.get(getActivity());
         DaoModule daoModule = userDatabase.daoModule();
-        user = daoModule.getById(1);
-        disposDatabase = DisposDatabase.get(getActivity());
+        User user = daoModule.getById(1);
+        DisposDatabase disposDatabase = DisposDatabase.get(getActivity());
         disposDao = disposDatabase.disposDao();
         if(mViewModel.getdispos().getValue() == null){
-            getActivity().startService(new Intent(getActivity(), GetDisposService.class));
+            requireActivity().startService(new Intent(getActivity(), GetDisposService.class));
         }
         Intent modif = new Intent(getActivity(), GetDispos.class);
         dispoListAdapter = new DispoListAdapter(getContext());
         mViewModel.getdispos().observe(getViewLifecycleOwner(), DispoListAdapter::setDispos);
         mrecycler.setAdapter(dispoListAdapter);
         dispoListAdapter.setOnItemClickListener(new DispoListAdapter.OnItemClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onItemClick(Dispos dispos) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
@@ -119,6 +116,7 @@ public class DisponibilitesFragment extends Fragment {
         return root;
     }
     
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onStart() {
         super.onStart();
@@ -128,7 +126,7 @@ public class DisponibilitesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-      mDispos = disposDao.getAllDisposList();
+        List<Dispos> mDispos = disposDao.getAllDisposList();
       if(mDispos != null){
         dispoListAdapter.onDispoUp(mDispos);}
         
