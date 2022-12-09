@@ -15,8 +15,20 @@ public class Dispos
     @ColumnInfo(name="dt")
     private String dt;
     
-    public Dispos(String dt) {
+    @ColumnInfo(name="dtsql")
+    private String dtsql;
+    
+    public Dispos(String dt, String dtsql) {
         this.dt = dt;
+        this.dtsql = dtsql;
+    }
+    
+    public String getDtsql() {
+        return dtsql;
+    }
+    
+    public void setDtsql(String dtsql) {
+        this.dtsql = dtsql;
     }
     
     public int getId() {

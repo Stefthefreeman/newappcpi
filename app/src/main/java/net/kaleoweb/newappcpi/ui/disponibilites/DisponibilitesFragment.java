@@ -18,6 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import net.kaleoweb.newappcpi.GetDispos;
 import net.kaleoweb.newappcpi.R;
 import net.kaleoweb.newappcpi.Services.GetDisposService;
@@ -27,11 +30,17 @@ import net.kaleoweb.newappcpi.dao.DaoModule;
 import net.kaleoweb.newappcpi.dao.DisposDao;
 import net.kaleoweb.newappcpi.databases.DisposDatabase;
 import net.kaleoweb.newappcpi.databases.UserDatabase;
+import net.kaleoweb.newappcpi.utilities.Communication;
 import net.kaleoweb.newappcpi.utilities.DiffUtilDispos;
 import net.kaleoweb.newappcpi.utilities.Dispos;
 import net.kaleoweb.newappcpi.utilities.User;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -41,7 +50,7 @@ public class DisponibilitesFragment extends Fragment {
     
     private DispoListAdapter dispoListAdapter;
     private DisposDao disposDao;
-    
+    Communication communication = new Communication();
     
     public static DisponibilitesFragment newInstance() {
         return new DisponibilitesFragment();
@@ -90,11 +99,10 @@ public class DisponibilitesFragment extends Fragment {
                     disposDao.deleteDispos(dispos);
                     mViewModel.getdispos().getValue().remove(dispos);
                     
+                        communication.CommunicationwithServer("setdispos.php?dispo=" + dispos.getDtsql()+ "&action="+ String.valueOf(3), getContext());
+                  
+                   
                     
-                    modif.putExtra("delete", dispos.getDt());
-                    modif.putExtra("manip", 3);
-                    modif.putExtra("id", dispos.getId());
-                    startActivity(modif);
                     dispoListAdapter.notifyDataSetChanged();
                 });
                 builder.setNegativeButton("Annuler", (dialogInterface, i) -> {
@@ -137,5 +145,5 @@ public class DisponibilitesFragment extends Fragment {
         super.onDestroy();
         
     }
-    
+   
 }

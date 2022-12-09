@@ -67,7 +67,7 @@ public class GetDisposService extends Service {
                 MyDispos mydispos = new MyDispos();
                 
                 mydispos.mydate = jsonObject.getString("date");
-                
+                mydispos.mydatesql = jsonObject.getString("datesql");
                 storeDispos(mydispos);
             }
             
@@ -94,10 +94,11 @@ public class GetDisposService extends Service {
     
     private static class MyDispos{
          public String mydate;
+         public String mydatesql;
     }
     
     private void storeDispos(MyDispos mydispos){
-        Dispos dispos = new Dispos(mydispos.mydate);
+        Dispos dispos = new Dispos(mydispos.mydate, mydispos.mydatesql);
         disposDao.insertDispos(dispos);
     }
 }

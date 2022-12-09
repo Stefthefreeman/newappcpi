@@ -31,6 +31,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class GetDispos extends AppCompatActivity {
@@ -65,7 +66,7 @@ public class GetDispos extends AppCompatActivity {
         disposDao = disposDatabase.disposDao();
         userDaoModule = userDatabase.daoModule();
         User userdatas = userDaoModule.getById(1);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
         CalendarView simpleCalendarView = findViewById(R.id.simpleCalendarView); // get the reference of CalendarView
         simpleCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -81,7 +82,7 @@ public class GetDispos extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 
-                Dispos dispos = new Dispos(tt);
+                Dispos dispos = new Dispos(tt,sendate);
                 
                 switch (test) {
                     case 0:
@@ -90,13 +91,13 @@ public class GetDispos extends AppCompatActivity {
                    
                         if (mList.size() == 0) {
                             disposDao.insertDispos(dispos);
-                            senDatas(userdatas.nom, sendate, test, "", appid);
+                            senDatas(userdatas.nom, sendate, test, "", appid,null);
                         } else {
                             try{
                             
                             if (checkIfExist(mList,tt )) {
                                 disposDao.insertDispos(dispos);
-                                senDatas(userdatas.nom, sendate, test, "", appid);
+                                senDatas(userdatas.nom, sendate, test, "", appid,null);
                             }}catch (Exception e){
                                 e.printStackTrace();
                             }
@@ -107,13 +108,13 @@ public class GetDispos extends AppCompatActivity {
                         String mydd = disposDao.getDate(appid);
                         String dteclean = cleanDate.dateinverse(mydd);
                         System.out.println("ID " + appid);
-                        senDatas(userdatas.nom, dteclean, test, sendate, appid);
+                        senDatas(userdatas.nom, dteclean, test, sendate, appid,null);
                         disposDao.upDispo(appid, tt);
                         
                         break;
                     case 3:
-                        senDatas(userdatas.nom, dte, test, "", appid);
-                        disposDao.deleteDispos(dispos);
+                     /*   senDatas(userdatas.nom, dte, test, "", appid);
+                        disposDao.deleteDispos(dispos);*/
                 }
                 
                 
@@ -136,7 +137,7 @@ public class GetDispos extends AppCompatActivity {
         
     }
     
-    public void senDatas(String nom, String dtdispo, int manip, String newdispo, int appid) {
+    public void senDatas(String nom, String dtdispo, int manip, String newdispo, int appid, RequestQueue requestQueue) {
         String URL = null;
         switch (manip) {
             case 0:
