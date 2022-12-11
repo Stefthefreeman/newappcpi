@@ -68,7 +68,7 @@ public class DisponibilitesFragment extends Fragment {
         User user = daoModule.getById(1);
         DisposDatabase disposDatabase = DisposDatabase.get(getActivity());
         disposDao = disposDatabase.disposDao();
-        if(mViewModel.getdispos().getValue() == null){
+        if (mViewModel.getdispos().getValue() == null) {
             requireActivity().startService(new Intent(getActivity(), GetDisposService.class));
         }
         Intent modif = new Intent(getActivity(), GetDispos.class);
@@ -99,9 +99,7 @@ public class DisponibilitesFragment extends Fragment {
                     disposDao.deleteDispos(dispos);
                     mViewModel.getdispos().getValue().remove(dispos);
                     
-                        communication.CommunicationwithServer("setdispos.php?dispo=" + dispos.getDtsql()+ "&action="+ String.valueOf(3), getContext());
-                  
-                   
+                    communication.CommunicationwithServer("setdispos.php?user="+user.nom+"&dispo=" + dispos.getDtsql() + "&action=" + String.valueOf(3), getContext());
                     
                     dispoListAdapter.notifyDataSetChanged();
                 });
@@ -135,8 +133,9 @@ public class DisponibilitesFragment extends Fragment {
     public void onResume() {
         super.onResume();
         List<Dispos> mDispos = disposDao.getAllDisposList();
-      if(mDispos != null){
-        dispoListAdapter.onDispoUp(mDispos);}
+        if (mDispos != null) {
+            dispoListAdapter.onDispoUp(mDispos);
+        }
         
     }
     
@@ -145,5 +144,5 @@ public class DisponibilitesFragment extends Fragment {
         super.onDestroy();
         
     }
-   
+    
 }

@@ -1,66 +1,43 @@
 package net.kaleoweb.newappcpi.utilities;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class CleanDate {
     
     private String mois;
-    public String datecomplete;
-    public CleanDate() {}
+    String dateToString;
     
-    /** @day
-     /* @month
-     /* @year
+    public CleanDate() {
+    }
+    
+    /**
+     * @return
+     * @params
      */
-     
-    public String returndate(int day,int month, int year){
-        
-        switch (month){
-            case 1:
-                mois="janvier";
-                break;
-            case 2:
-                mois="février";
-                break;
-            case 3:
-                mois="mars";
-                break;
-            case 4:
-                mois="avril";
-                break;
-            case 5:
-                mois="mai";
-                break;
-            case 6:
-                mois="juin";
-                break;
-            case 7:
-                mois="juillet";
-                break;
-            case 8:
-                mois="aout";
-                break;
-            case 9:
-                mois="septembre";
-                break;
-            case 10:
-                mois="octobre";
-                break;
-            case 11:
-                mois="novembre";
-                break;
-            case 12:
-                mois="décembre";
-                break;
-                
+    
+    
+    public String returndate(String myDate) {
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd",Locale.FRANCE).parse(myDate);
+            System.out.println("DATE : " + date);
+            
+            SimpleDateFormat sf = new SimpleDateFormat("EEE d MMM yyyy", Locale.FRANCE);
+          
+            dateToString = sf.format(date);
+            
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         
-        datecomplete = day +" "+ mois + " "+ year;
-        
-        
-        return datecomplete;
+        return dateToString.toString();
         
     }
     
-    public String dateinverse(String dte){
+    public String dateinverse(String dte) {
         System.out.println(dte);
         try {
             String result = null;
@@ -102,9 +79,11 @@ public class CleanDate {
             if (month.equals("décembre")) {
                 result = "12";
             }
-            return fre[2]+"-" + result +"-" +fre[0];
-        }catch(Exception e){e.printStackTrace();}
-    
+            return fre[2] + "-" + result + "-" + fre[0];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         return " ";
     }
 }

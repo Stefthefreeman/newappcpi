@@ -30,6 +30,7 @@ import net.kaleoweb.newappcpi.utilities.User;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -72,9 +73,11 @@ public class GetDispos extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 //Toast.makeText(getApplicationContext(), dayOfMonth+ "/" + (month+1) + "/" + year, Toast.LENGTH_LONG).show();
+               
                 sendate = year + "-" + (month + 1) + "-" + dayOfMonth;
                 cleanDate = new CleanDate();
-                tt = cleanDate.returndate(dayOfMonth, (month + 1), year);
+                tt = cleanDate.returndate(sendate);
+                System.out.println("CLEANDATE : " +tt);
             }
             
         });
@@ -113,7 +116,7 @@ public class GetDispos extends AppCompatActivity {
                         
                         break;
                     case 3:
-                     /*   senDatas(userdatas.nom, dte, test, "", appid);
+                       /* senDatas(userdatas.nom, dte, test, "", appid);
                         disposDao.deleteDispos(dispos);*/
                 }
                 

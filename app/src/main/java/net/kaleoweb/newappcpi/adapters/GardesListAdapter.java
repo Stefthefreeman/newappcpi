@@ -39,8 +39,8 @@ public class GardesListAdapter extends RecyclerView.Adapter<GardesListAdapter.In
     @Override
     public void onBindViewHolder(@NotNull InterViewHolder holder, int position) {
         if (mGardes != null) {
-            int[] images = {R.drawable.ourccf, R.drawable.vsav, R.drawable.canadair, R.drawable.ffi, R.drawable.ccfm
-                           ,R.drawable.pmp,R.drawable.rescue};
+            int[] images = {R.drawable.ourccf, R.drawable.vsavnuit, R.drawable.cnd, R.drawable.sdis, R.drawable.ccfm
+                           , R.drawable.pmp, R.drawable.pompiersp};
             Random random = new Random();
             Gardes current = mGardes.get(position);
             holder.interItemView.setText(current.getDate());
