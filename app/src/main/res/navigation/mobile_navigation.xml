@@ -34,4 +34,10 @@
         android:name="net.kaleoweb.newappcpi.ui.disponibilites.DisponibilitesFragment"
         android:label="Mes dispos"
         tools:layout="@layout/fragment_dispnibilites" />
+
+    <fragment
+        android:id="@+id/nav_calls"
+        android:name="net.kaleoweb.newappcpi.ui.numbersutils.NumbersUtils"
+        android:label="Liens Utiles"
+        tools:layout="@layout/fragment_numbers_utils" />
 </navigation>

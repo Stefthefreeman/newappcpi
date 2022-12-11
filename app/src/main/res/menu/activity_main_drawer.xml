@@ -20,6 +20,9 @@
             android:id="@+id/nav_dispos"
             android:icon="@drawable/calendrier"
             android:title="@string/mes_dispo" />
-
+        <item
+            android:id="@+id/nav_calls"
+            android:icon="@drawable/phone_black"
+            android:title="@string/liens_utiles" />
     </group>
 </menu>

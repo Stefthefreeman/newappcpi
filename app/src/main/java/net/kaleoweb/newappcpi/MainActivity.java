@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.pharmacie,R.id.nav_pharma,R.id.nav_dispos)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.pharmacie,R.id.nav_pharma,R.id.nav_dispos,R.id.nav_calls)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -127,14 +127,10 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             
             case R.id.action_settings:
-                Intent change = new Intent(this, StoreUser.class);
+               /* Intent change = new Intent(this, StoreUser.class);
                 this.startActivity(change);
-                myAlertDialog();
+                myAlertDialog();*/
                 break;
-            case R.id.menu_refresh:
-               
-                break;
-            
             default:
                 return super.onOptionsItemSelected(item);
             
