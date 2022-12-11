@@ -35,7 +35,7 @@ public abstract class DisposDatabase extends RoomDatabase {
         
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE dispos Add Column last_update INTEGER");
+            database.execSQL("ALTER TABLE dispos Add Column dtsql TEXT");
         }
     };
 }

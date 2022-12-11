@@ -53,13 +53,7 @@
             android:screenOrientation="portrait" />
 
         <service android:name=".Services.SetGardes" />
-        <service
-            android:name=".MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+
         <service android:name=".Services.SetPharma" />
         <service android:name=".Services.GetDisposService" />
     </application>
