@@ -57,6 +57,7 @@ public class GetDispos extends AppCompatActivity {
         test = i.getIntExtra("manip", 0);
         appid = i.getIntExtra("id", 0);
         System.out.println("TEST" + test);
+      
         //   System.out.println(dlt);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Button send = findViewById(R.id.send);
@@ -114,6 +115,9 @@ public class GetDispos extends AppCompatActivity {
                     case 3:
                         senDatas(userdatas.nom, dte, test, "", appid);
                         disposDao.deleteDispos(dispos);
+                        break;
+                        
+                        
                 }
                 
                 
@@ -148,6 +152,10 @@ public class GetDispos extends AppCompatActivity {
                 break;
             case 3:
                 URL = "https://cpi.agence-creation-sc.com/app/setdispos.php?dispo=" + dtdispo + "&action=" + manip;
+                break;
+                
+            default:
+                
                 break;
             
         }

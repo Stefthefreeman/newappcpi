@@ -37,12 +37,14 @@ public class PharmaViewModel extends AndroidViewModel {
     
     private LiveData<List<Pharma>> mPharmacie;
     
-    
+    private List<Pharma> mPharma;
     public PharmaViewModel(Application application) {
         super(application);
         PharmacieDatabase pharmacieDatabase = PharmacieDatabase.get(application);
         pharmacieDaoModule = pharmacieDatabase.pharmacieDaoModule();
         mPharmacie = pharmacieDaoModule.getAll();
+        
+       
         
     }
     
@@ -57,6 +59,7 @@ public class PharmaViewModel extends AndroidViewModel {
     public void updatePharma() {
         pharmacieDaoModule.delete();
     }
+    
     
     @Override
     protected void onCleared() {

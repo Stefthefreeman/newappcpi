@@ -27,6 +27,7 @@ import net.kaleoweb.newappcpi.dao.DaoModule;
 import net.kaleoweb.newappcpi.dao.DisposDao;
 import net.kaleoweb.newappcpi.databases.DisposDatabase;
 import net.kaleoweb.newappcpi.databases.UserDatabase;
+import net.kaleoweb.newappcpi.utilities.Config;
 import net.kaleoweb.newappcpi.utilities.DiffUtilDispos;
 import net.kaleoweb.newappcpi.utilities.Dispos;
 import net.kaleoweb.newappcpi.utilities.User;
@@ -59,7 +60,7 @@ public class DisponibilitesFragment extends Fragment {
         User user = daoModule.getById(1);
         DisposDatabase disposDatabase = DisposDatabase.get(getActivity());
         disposDao = disposDatabase.disposDao();
-        if(mViewModel.getdispos().getValue() == null){
+        if (mViewModel.getDispoList().size() == 0) {
             requireActivity().startService(new Intent(getActivity(), GetDisposService.class));
         }
         Intent modif = new Intent(getActivity(), GetDispos.class);
@@ -90,7 +91,7 @@ public class DisponibilitesFragment extends Fragment {
                     disposDao.deleteDispos(dispos);
                     mViewModel.getdispos().getValue().remove(dispos);
                     
-                    
+                    Config.testDelete = "delete";
                     modif.putExtra("delete", dispos.getDt());
                     modif.putExtra("manip", 3);
                     modif.putExtra("id", dispos.getId());
@@ -127,8 +128,9 @@ public class DisponibilitesFragment extends Fragment {
     public void onResume() {
         super.onResume();
         List<Dispos> mDispos = disposDao.getAllDisposList();
-      if(mDispos != null){
-        dispoListAdapter.onDispoUp(mDispos);}
+        if (mDispos != null) {
+            dispoListAdapter.onDispoUp(mDispos);
+        }
         
     }
     
