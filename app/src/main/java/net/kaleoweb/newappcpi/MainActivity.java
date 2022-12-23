@@ -2,8 +2,10 @@ package net.kaleoweb.newappcpi;
 
 import static androidx.fragment.app.FragmentManager.TAG;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -43,6 +47,7 @@ import net.kaleoweb.newappcpi.utilities.MyDiffUtil;
 import net.kaleoweb.newappcpi.utilities.Pharma;
 import net.kaleoweb.newappcpi.utilities.User;
 
+import java.security.Permission;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private FirebaseAuth mAuth;
-    
+    private static final int REQUEST_CALL = 110;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +81,13 @@ public class MainActivity extends AppCompatActivity {
         DaoModule daoModule;
         UserDatabase userDatabase = UserDatabase.get(this);
         daoModule = userDatabase.daoModule();
-    
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[] {
+                            Manifest.permission.CALL_PHONE
+                    }, REQUEST_CALL);
+        }
         User userdatas = daoModule.getById(1);
         if (userdatas == null) {
             // Toast.makeText(this,"VOUS DEVEZ VOUS ENREGISTRER POUR UTILISER L'APPLICATION",Toast.LENGTH_LONG).show();

@@ -24,6 +24,9 @@ public interface SuapDao {
     @Query("Select * from suap")
     LiveData<List<Suapdatas>> getAllSuap();
     
+    @Query("Select * from suap")
+    List<Suapdatas> getAllSuapList();
+    
     @Query("SELECT COUNT(*) FROM suap")
     int count();
     

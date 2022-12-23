@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.kaleoweb.newappcpi.R;
+import net.kaleoweb.newappcpi.utilities.DiffUtilGardes;
 import net.kaleoweb.newappcpi.utilities.Gardes;
 
 import org.jetbrains.annotations.NotNull;
@@ -50,8 +52,8 @@ public class GardesListAdapter extends RecyclerView.Adapter<GardesListAdapter.In
             holder.interItemView6.setText(current.getEquipier2());
             holder.interItemView3.setText(current.getConsignes());
             Log.i("PRESENCE", Integer.toString(current.getPresence()));
-            if (current.getPresence() == 0) {
-                holder.imageView.setVisibility(View.GONE);
+            if (current.getPresence() == 1) {
+                holder.imageView.setVisibility(View.VISIBLE);
             }
             holder.headerImgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             holder.headerImgView.setImageResource(images[random.nextInt(images.length)]);
@@ -96,7 +98,7 @@ public class GardesListAdapter extends RecyclerView.Adapter<GardesListAdapter.In
             interItemView5 = itemView.findViewById(R.id.restant);
             interItemView6 = itemView.findViewById(R.id.divers);
             interItemView3 = itemView.findViewById(R.id.consignes);
-            imageView = itemView.findViewById(R.id.imageView3);
+            imageView = itemView.findViewById(R.id.isongard);
             headerImgView = itemView.findViewById(R.id.headerImgView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 
@@ -118,5 +120,13 @@ public class GardesListAdapter extends RecyclerView.Adapter<GardesListAdapter.In
     
     public void setOnItemClickListener(OnItemClickListener listener) {
         GardesListAdapter.listener = listener;
+    }
+    
+    public void onGardesUp(List<Gardes> newGardes){
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtilGardes(mGardes,newGardes));
+        diffResult.dispatchUpdatesTo(this);
+        mGardes.clear();
+        mGardes.addAll(newGardes);
+        
     }
 }

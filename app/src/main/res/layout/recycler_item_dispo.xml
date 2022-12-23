@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="2dp"
-        android:background="@color/Coral"
+        android:background="@drawable/spinback"
         android:orientation="vertical">
 
 
@@ -23,22 +23,12 @@
             android:orientation="horizontal">
 
 
-            <Button
-                android:id="@+id/txtvdate"
-                style="@style/Widget.AppCompat.Button"
+            <ImageView
+                android:id="@+id/imageView8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.80"
-                android:background="@color/beaumontblue"
-                android:backgroundTint="@color/beaumontblue"
-                android:gravity="center_horizontal"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:textColor="@color/White"
-                android:textSize="16sp"
-                card_view:icon="@drawable/calendrier"
-                card_view:iconTint="@color/white"
-                card_view:strokeColor="@color/Aqua" />
+                card_view:srcCompat="@android:drawable/ic_menu_my_calendar" />
 
             <TextView
                 android:id="@+id/datedispo"

@@ -1,6 +1,7 @@
 package net.kaleoweb.newappcpi.ui.disponibilites;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 
 import com.android.volley.RequestQueue;
@@ -51,6 +54,8 @@ public class DisponibilitesFragment extends Fragment {
     private DispoListAdapter dispoListAdapter;
     private DisposDao disposDao;
     Communication communication = new Communication();
+    CardView cardView;
+    List<Dispos> mylist;
     
     public static DisponibilitesFragment newInstance() {
         return new DisponibilitesFragment();
@@ -60,58 +65,67 @@ public class DisponibilitesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_dispnibilites, container, false);
+        
         mViewModel = new ViewModelProvider(this).get(DisponibilitesViewModel.class);
+        
         RecyclerView mrecycler = root.findViewById(R.id.disporecyclerview);
         Button adddispo = root.findViewById(R.id.btnaddispo);
+        cardView = root.findViewById(R.id.card);
+        
         UserDatabase userDatabase = UserDatabase.get(getActivity());
+        
         DaoModule daoModule = userDatabase.daoModule();
+        
         User user = daoModule.getById(1);
         DisposDatabase disposDatabase = DisposDatabase.get(getActivity());
         disposDao = disposDatabase.disposDao();
-        if (mViewModel.getdispos().getValue() == null) {
-            requireActivity().startService(new Intent(getActivity(), GetDisposService.class));
+        
+        List<Dispos> mylist = disposDao.getAllDisposList();
+        
+       if (mylist.size() == 0) {
+          //  requireActivity().startService(new Intent(getActivity(), GetDisposService.class));
+            cardView.setVisibility(View.VISIBLE);
         }
         Intent modif = new Intent(getActivity(), GetDispos.class);
         dispoListAdapter = new DispoListAdapter(getContext());
+        
         mViewModel.getdispos().observe(getViewLifecycleOwner(), DispoListAdapter::setDispos);
         mrecycler.setAdapter(dispoListAdapter);
-        dispoListAdapter.setOnItemClickListener(new DispoListAdapter.OnItemClickListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onItemClick(Dispos dispos) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        dispoListAdapter.setOnItemClickListener(dispos -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+            
+            builder.setIcon(R.drawable.calendrier)
+                    .setTitle("Modifier/Supprimer")
+                    .setMessage("Disponibilité du :\n\n" + dispos.getDt());
+            
+            builder.setPositiveButton("Modifier", (dialogInterface, i) -> {
                 
-                builder.setIcon(R.drawable.calendrier)
-                        .setTitle("Modifier/Supprimer")
-                        .setMessage("Disponibilité du :\n\n" + dispos.getDt());
+                modif.putExtra("date", dispos.getDt());
+                modif.putExtra("manip", 2);
+                modif.putExtra("id", dispos.getId());
+                startActivity(modif);
+                dispoListAdapter.notifyDataSetChanged();
                 
-                builder.setPositiveButton("Modifier", (dialogInterface, i) -> {
-                    
-                    modif.putExtra("date", dispos.getDt());
-                    modif.putExtra("manip", 2);
-                    modif.putExtra("id", dispos.getId());
-                    startActivity(modif);
-                    dispoListAdapter.notifyDataSetChanged();
-                    
-                });
-                builder.setNeutralButton("Supprimer", (dialogInterface, i) -> {
-                    
-                    disposDao.deleteDispos(dispos);
-                    mViewModel.getdispos().getValue().remove(dispos);
-                    
-                    communication.CommunicationwithServer("setdispos.php?user="+user.nom+"&dispo=" + dispos.getDtsql() + "&action=" + String.valueOf(3), getContext());
-                    
-                    dispoListAdapter.notifyDataSetChanged();
-                });
-                builder.setNegativeButton("Annuler", (dialogInterface, i) -> {
+            });
+            builder.setNeutralButton("Supprimer", (dialogInterface, i) -> {
                 
-                });
+                disposDao.deleteDispos(dispos);
+                mViewModel.getdispos().getValue().remove(dispos);
+                if(mViewModel.getdispos().getValue().size() == 0){
+                    cardView.setVisibility(View.VISIBLE);
+                }
+                communication.CommunicationwithServer("setdispos.php?user="+user.nom+"&dispo=" + dispos.getDtsql() + "&action=" + String.valueOf(3), getContext());
                 
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                
-                
-            }
+                dispoListAdapter.notifyDataSetChanged();
+            });
+            builder.setNegativeButton("Annuler", (dialogInterface, i) -> {
+            
+            });
+            
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            
+            
         });
         
         
@@ -133,8 +147,9 @@ public class DisponibilitesFragment extends Fragment {
     public void onResume() {
         super.onResume();
         List<Dispos> mDispos = disposDao.getAllDisposList();
-        if (mDispos != null) {
+        if (mDispos.size() != 0) {
             dispoListAdapter.onDispoUp(mDispos);
+            cardView.setVisibility(View.GONE);
         }
         
     }

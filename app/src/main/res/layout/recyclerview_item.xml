@@ -20,26 +20,45 @@
         <ImageView
             android:id="@+id/headerImgView"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="176dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/app_name"
-            android:cropToPadding="true" />
+            android:cropToPadding="true"
+            android:scaleType="fitCenter" />
 
-        <TextView
-            android:id="@+id/nomitem"
-            style="@style/tv_main_gardes"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:gravity="center_horizontal"
-            android:padding="12dp"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/white"
-            android:textScaleX="0.80"
-            android:textSize="16sp"
-            android:textStyle="normal|bold"
-            android:typeface="sans" />
+            android:layout_height="match_parent"
+            android:background="@color/beaumontblue"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/nomitem"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                android:gravity="center_horizontal|center_vertical"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/white"
+                android:textScaleX="0.80"
+                android:textSize="16sp"
+                android:textStyle="normal|bold"
+                android:typeface="sans" />
+
+            <ImageView
+                android:id="@+id/isongard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:adjustViewBounds="true"
+                android:background="@drawable/spinback"
+                android:padding="2dp"
+                android:scaleType="centerInside"
+                android:visibility="gone"
+                card_view:srcCompat="@drawable/chfire" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,7 +93,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/AliceBlue" />
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/beaumontblue" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -156,11 +177,16 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/beaumontblue" />
         <TextView
             android:id="@+id/consignes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/textview_border"
             android:gravity="center_horizontal|center_vertical"
             android:padding="12dp"
             android:textAllCaps="true"
@@ -170,24 +196,6 @@
             android:textStyle="bold|italic" />
 
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="65dp"
-        android:orientation="horizontal"
-        android:translationX="330dp"
-        android:translationY="250dp">
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="45dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginBottom="60dp"
-            android:background="@drawable/casque"
-            android:backgroundTint="#FDD835"
-            android:visibility="visible" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

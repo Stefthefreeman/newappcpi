@@ -144,7 +144,7 @@ public class SetGardes extends Service {
         Log.i("TOTAL", Integer.toString(total));
         Log.i("LONGUEUR", Integer.toString(longueur));
         if (total < longueur) {
-            // daoModule.p();
+           // daoModule.p();
             daoModule.insertGardes(insertdatas);
         }
     }

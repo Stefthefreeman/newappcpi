@@ -48,7 +48,7 @@ public class DispoListAdapter extends RecyclerView.Adapter<DispoListAdapter.Disp
             
         } else {
             // Covers the case of data not being ready yet.
-            holder.mdate.setText("No Word");
+           
         }
         
     }
@@ -66,13 +66,13 @@ public class DispoListAdapter extends RecyclerView.Adapter<DispoListAdapter.Disp
     
     
     static class DispoViewHolder extends RecyclerView.ViewHolder {
-        private final TextView mdate;
+        
         private final TextView mdispos;
         
         
         private DispoViewHolder(View itemView) {
             super(itemView);
-            mdate = itemView.findViewById(R.id.txtvdate);
+            
             mdispos = itemView.findViewById(R.id.datedispo);
             
             

@@ -27,6 +27,9 @@ public interface GardesDaoModule {
     @Query("Select * from gardes ORDER BY datesql ASC")
     LiveData<List<Gardes>> getAll();
     
+    @Query("Select * from gardes ORDER BY datesql ASC")
+    List<Gardes> getAllGardes();
+    
     @Query("Select * from gardes")
     Gardes gettout();
     
@@ -36,7 +39,7 @@ public interface GardesDaoModule {
     @Query("DELETE FROM gardes WHERE id = :theid")
     int i(int theid);
     
-    @Query("DELETE FROM gardes WHERE 1")
+    @Query("DELETE FROM gardes")
     void p();
     
     

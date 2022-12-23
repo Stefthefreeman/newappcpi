@@ -7,9 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.kaleoweb.newappcpi.R;
+import net.kaleoweb.newappcpi.utilities.DiffUtilGardes;
+import net.kaleoweb.newappcpi.utilities.DiffUtilsSuap;
 import net.kaleoweb.newappcpi.utilities.Gardes;
 import net.kaleoweb.newappcpi.utilities.Suapdatas;
 
@@ -39,8 +42,9 @@ public class SuapAdapter extends RecyclerView.Adapter<SuapAdapter.InterViewHolde
         if (mSuap != null) {
             Suapdatas current = mSuap.get(position);
             holder.name.setText("Nom: " + current.getNom());
-            holder.tension.setText("TA: " + current.getDiastole() + "/" + current.getSystole() + " TEMP: " + current.getTemperature());
-            holder.pouls.setText("Pouls: " + current.getPouls() + " FR: " + current.getFreqrespi());
+            holder.tension.setText("TA: " + current.getDiastole() + "/" + current.getSystole() + "            TEMP: " + current.getTemperature()+"°C");
+            holder.pouls.setText("Pouls: " + current.getPouls() + " bpm              FR: " + current.getFreqrespi()+"/mn");
+            holder.glyco.setText("Glycémie :" + current.getGlycemie());
             
             
         } else {
@@ -69,6 +73,7 @@ public class SuapAdapter extends RecyclerView.Adapter<SuapAdapter.InterViewHolde
         private final TextView name;
         private final TextView tension;
         private final TextView pouls;
+        private final TextView glyco;
         private final ImageView imageView;
         
         private InterViewHolder(View itemView) {
@@ -77,6 +82,7 @@ public class SuapAdapter extends RecyclerView.Adapter<SuapAdapter.InterViewHolde
             tension = itemView.findViewById(R.id.tension);
             pouls = itemView.findViewById(R.id.pouls);
             imageView = itemView.findViewById(R.id.imageView3);
+            glyco = itemView.findViewById(R.id.glyco);
             itemView.setOnClickListener(new View.OnClickListener() {
                 
                 @Override
@@ -96,5 +102,13 @@ public class SuapAdapter extends RecyclerView.Adapter<SuapAdapter.InterViewHolde
     
     public void setOnItemClickListener(OnItemClickListener listener) {
         SuapAdapter.listener = listener;
+    }
+    
+    public void onSuapsUp(List<Suapdatas> newSuapdatas){
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtilsSuap(mSuap,newSuapdatas));
+        diffResult.dispatchUpdatesTo(this);
+        mSuap.clear();
+        mSuap.addAll(newSuapdatas);
+        
     }
 }

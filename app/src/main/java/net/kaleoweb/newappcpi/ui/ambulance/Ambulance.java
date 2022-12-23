@@ -28,6 +28,7 @@ import net.kaleoweb.newappcpi.databinding.AmbulanceBinding;
 import net.kaleoweb.newappcpi.utilities.Materiel;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class Ambulance extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class Ambulance extends AppCompatActivity {
         int j = (int) extras.get("CODE");
         String cat = extras.get("NAME").toString();
         Log.i("Intent", String.valueOf(j));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(cat);
         
         amblanceViewModel = new ViewModelProvider(this, new MyViewModelFactory(this.getApplication(), j)).get(AmblanceViewModel.class);

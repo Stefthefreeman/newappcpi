@@ -29,7 +29,10 @@
                 android:id="@+id/imageView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ccfm" />
+                android:adjustViewBounds="true"
+                android:background="@drawable/customshapegrey"
+                android:scaleType="centerCrop"
+                android:src="@drawable/department" />
 
             <TextView
                 android:id="@+id/nodatas"
@@ -42,7 +45,8 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/AliceBlue"
                 android:textSize="24sp"
-                android:textStyle="bold"
+                android:textStyle="bold|italic"
+                android:typeface="monospace"
                 app:layout_constrainedHeight="false"
                 app:layout_constrainedWidth="false" />
         </LinearLayout>

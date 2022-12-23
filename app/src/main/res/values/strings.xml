@@ -66,4 +66,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="codis_84">codis 84</string>
     <string name="liens_utiles">Liens utiles</string>
+    <string name="ajouter_une_dispo">Ajouter une dispo</string>
 </resources>

@@ -44,8 +44,11 @@ public interface DisposDao {
     @Query("Select dt from dispos WHERE id = :dd")
     String getDate(int dd);
     
-    @Query("UPDATE dispos SET dt = :dt  WHERE id = :dd")
-    int upDispo(int dd,String dt);
+    @Query("Select dtsql from dispos WHERE id = :dd")
+    String getDateSql(int dd);
+    
+    @Query("UPDATE dispos SET dt = :dt, dtsql = :dtsql WHERE id = :dd")
+    int upDispo(int dd,String dt,String dtsql);
     
     
     

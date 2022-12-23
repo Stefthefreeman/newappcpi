@@ -30,58 +30,69 @@ import net.kaleoweb.newappcpi.databinding.FragmentSlideshowBinding;
 import net.kaleoweb.newappcpi.forms.StoreConstantes;
 import net.kaleoweb.newappcpi.utilities.Suapdatas;
 
-public class SlideshowFragment extends Fragment {
+import java.util.List;
 
+public class SlideshowFragment extends Fragment {
+    
     private SlideshowViewModel slideshowViewModel;
     private FragmentSlideshowBinding binding;
-   
-
+    SuapDao suapDao;
+    SuapAdapter adapter;
+    
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel =
                 new ViewModelProvider(this).get(SlideshowViewModel.class);
-
+        
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        
+        SuapDatabase suapDatabase = SuapDatabase.get(getActivity());
+        suapDao = suapDatabase.suapDao();
         Button addsuap = root.findViewById(R.id.addsuap);
         addsuap.setOnClickListener(v -> {
             Intent form = new Intent(getActivity(), StoreConstantes.class);
             startActivity(form);
         });
         RecyclerView recyclerView = root.findViewById(R.id.recyclerviewsuap);
-        final SuapAdapter adapter = new SuapAdapter(getContext());
+        adapter = new SuapAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         slideshowViewModel.getBilans().observe(getViewLifecycleOwner(), adapter::setInters);
         
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(suapdatas -> {
-            int suap =  suapdatas.getId();
+            int suap = suapdatas.getId();
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Supprimer " +suapdatas.getNom());
-            builder.setMessage("TA: " +suapdatas.getDiastole()+"/"+suapdatas.getSystole()+"\n"+
-                                "POULS : "+suapdatas.getPouls()+"\n");
+            builder.setTitle("Supprimer " + suapdatas.getNom());
+            builder.setMessage("TA: " + suapdatas.getDiastole() + "/" + suapdatas.getSystole() + "\n" +
+                    "POULS : " + suapdatas.getPouls() + "\n");
             builder.setPositiveButton("SUPPRIMER", (dialog, which) -> {
                 slideshowViewModel.getBilans().getValue().remove(suapdatas);
-                SuapDatabase suapDatabase = SuapDatabase.get(getContext()) ;
-                 SuapDao suapDao = suapDatabase.suapDao();
-                 suapDao.d(suap);
-                 adapter.notifyDataSetChanged();
-                 Toast.makeText(getContext(),"Bilan supprimé!",Toast.LENGTH_LONG).show();
-                 
+                suapDao.d(suap);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(getContext(), "Bilan supprimé!", Toast.LENGTH_LONG).show();
+                
             });
             builder.setNegativeButton("ANNULER", (dialog, which) -> dialog.cancel());
             AlertDialog dialog = builder.create();
             dialog.show();
-           
+            
         });
-     
+        
         return root;
     }
-
+    
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        List<Suapdatas> mlist = suapDao.getAllSuapList();
+        adapter.onSuapsUp(mlist);
+        adapter.notifyDataSetChanged();
+        
     }
 }

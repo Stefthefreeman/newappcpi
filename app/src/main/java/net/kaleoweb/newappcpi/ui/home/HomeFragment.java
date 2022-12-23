@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +27,12 @@ import net.kaleoweb.newappcpi.adapters.GardesListAdapter;
 import net.kaleoweb.newappcpi.dao.DaoModule;
 import net.kaleoweb.newappcpi.dao.GardesDaoModule;
 import net.kaleoweb.newappcpi.databases.GardesDatabase;
+import net.kaleoweb.newappcpi.databases.SuapDatabase;
 import net.kaleoweb.newappcpi.databinding.FragmentHomeBinding;
 import net.kaleoweb.newappcpi.utilities.ClearCache;
 import net.kaleoweb.newappcpi.utilities.Gardes;
 
+import java.util.List;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
@@ -39,40 +42,46 @@ public class HomeFragment extends Fragment {
     private GardesListAdapter adapter;
     private CardView noDatas;
     private GardesDaoModule daoModule;
+    private ImageView isongard;
     Intent myintent;
     ClearCache clearCache;
     
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         myintent = new Intent(getActivity(), SetGardes.class);
-        getActivity().startService(myintent);
+      
+       
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.recyclerview);
         noDatas = root.findViewById(R.id.cdw);
+        
        
+        
         adapter = new GardesListAdapter(getContext());
         clearCache = new ClearCache();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);
-        try{
+        try {
             GardesDatabase gardesDatabase = GardesDatabase.getInstance(getActivity());
-           daoModule = gardesDatabase.gardesDaoModule();
-        if(daoModule.gettout() == null){
-        
-            noDatas.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+            daoModule = gardesDatabase.gardesDaoModule();
+           
+            if (daoModule.gettout() == null) {
+                requireActivity().startService(myintent);
+                noDatas.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        }
-        catch (Exception e){e.printStackTrace();}
         
         
         recyclerView.addItemDecoration(dividerItemDecoration);
         homeViewModel.getList().observe(getViewLifecycleOwner(), adapter::setInters);
         recyclerView.setAdapter(adapter);
-       
+        
         adapter.setOnItemClickListener(new GardesListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Gardes gardes) {
@@ -108,14 +117,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("onresume", "Datasetchanged");
-        adapter.notifyDataSetChanged();
+        requireActivity().startService(myintent);
+      /* List<Gardes> gg = daoModule.getAllGardes();
+       if(gg.size() != 0){
+        adapter.onGardesUp(gg);
+        adapter.notifyDataSetChanged();}*/
     }
     
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
         requireActivity().stopService(myintent);
         clearCache.clearCache(getContext());
         

@@ -1,5 +1,7 @@
 package net.kaleoweb.newappcpi.ui.numbersutils;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import net.kaleoweb.newappcpi.R;
 
@@ -25,7 +28,8 @@ public class NumbersUtils extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    
+    private ImageButton codis;
+    private ImageButton csp;
     public NumbersUtils() {
         // Required empty public constructor
     }
@@ -62,7 +66,16 @@ public class NumbersUtils extends Fragment {
                              Bundle savedInstanceState) {
        View root = inflater.inflate(R.layout.fragment_numbers_utils, container, false);
        
+       codis = root.findViewById(R.id.appelcodis);
+       csp = root.findViewById(R.id.appelpertuis);
        
+       codis.setOnClickListener(view -> {
+           startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "0490899047")));
+       });
+       
+       csp.setOnClickListener(view -> {
+           startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "0490817150")));
+       });
        
         return root;
     }

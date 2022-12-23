@@ -1,6 +1,7 @@
 package net.kaleoweb.newappcpi;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,7 @@ import net.kaleoweb.newappcpi.dao.DisposDao;
 import net.kaleoweb.newappcpi.databases.DisposDatabase;
 import net.kaleoweb.newappcpi.databases.UserDatabase;
 import net.kaleoweb.newappcpi.utilities.CleanDate;
+import net.kaleoweb.newappcpi.utilities.Communication;
 import net.kaleoweb.newappcpi.utilities.Dispos;
 import net.kaleoweb.newappcpi.utilities.User;
 
@@ -67,6 +69,7 @@ public class GetDispos extends AppCompatActivity {
         disposDao = disposDatabase.disposDao();
         userDaoModule = userDatabase.daoModule();
         User userdatas = userDaoModule.getById(1);
+        
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
         CalendarView simpleCalendarView = findViewById(R.id.simpleCalendarView); // get the reference of CalendarView
         simpleCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -90,29 +93,15 @@ public class GetDispos extends AppCompatActivity {
                 switch (test) {
                     case 0:
                     case 1:
-                        mList = disposDao.getAllDisposList();
-                   
-                        if (mList.size() == 0) {
                             disposDao.insertDispos(dispos);
-                            senDatas(userdatas.nom, sendate, test, "", appid,null);
-                        } else {
-                            try{
-                            
-                            if (checkIfExist(mList,tt )) {
-                                disposDao.insertDispos(dispos);
-                                senDatas(userdatas.nom, sendate, test, "", appid,null);
-                            }}catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        }
+                            senDatas(userdatas.nom, sendate, test, "", appid,getApplicationContext());
                         break;
                     
                     case 2:
-                        String mydd = disposDao.getDate(appid);
-                        String dteclean = cleanDate.dateinverse(mydd);
+                        String mydd = disposDao.getDateSql(appid);
                         System.out.println("ID " + appid);
-                        senDatas(userdatas.nom, dteclean, test, sendate, appid,null);
-                        disposDao.upDispo(appid, tt);
+                        senDatas(userdatas.nom, mydd, test, sendate, appid,getApplicationContext());
+                        disposDao.upDispo(appid, tt,sendate);
                         
                         break;
                     case 3:
@@ -140,44 +129,28 @@ public class GetDispos extends AppCompatActivity {
         
     }
     
-    public void senDatas(String nom, String dtdispo, int manip, String newdispo, int appid, RequestQueue requestQueue) {
+    public void senDatas(String nom, String dtdispo, int manip, String newdispo, int appid, Context context) {
+        Communication communication =new Communication();
         String URL = null;
         switch (manip) {
             case 0:
             case 1:
-                URL = "https://cpi.agence-creation-sc.com/app/setdispos.php?user=" + nom + "&dispo=" + dtdispo + "&action=" + manip + "&app_id=" + appid;
+                 communication.CommunicationwithServer("setdispos.php?user=" + nom + "&dispo=" + dtdispo + "&action=" + manip + "&app_id=" + appid+"",context);;
                 break;
             case 2:
-                URL = "https://cpi.agence-creation-sc.com/app/setdispos.php?user=" + nom + "&dispo=" + dtdispo + "&action=" + manip + "&new=" + newdispo + "&app_id=" + appid;
+                communication.CommunicationwithServer("setdispos.php?user=" + nom + "&dispo=" + dtdispo + "&action=" + manip + "&new=" + newdispo + "&app_id=" + appid+"",context);
                 break;
             case 3:
-                URL = "https://cpi.agence-creation-sc.com/app/setdispos.php?dispo=" + dtdispo + "&action=" + manip;
+                communication.CommunicationwithServer("setdispos.php?dispo=" + dtdispo + "&action=" + manip+"",context);
                 break;
             
         }
-        Log.i("URL", URL);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URL, null, jsonRequestListener, errorListener);
-        getRequestQueue().add(request);
+        
+       
         
     }
     
-    private final Response.Listener<JSONObject> jsonRequestListener = response -> {
-        
-        Log.i("response", response.toString());
-    };
-    
-    private final Response.ErrorListener errorListener = error -> {
-        //  Toast.makeText(getActivity(),"On a une erreur", Toast.LENGTH_LONG).show();
-        Log.d("REQUEST", error.toString());
-    };
-    
-    RequestQueue requestQueue;
-    
-    RequestQueue getRequestQueue() {
-        if (requestQueue == null)
-            requestQueue = Volley.newRequestQueue(this);
-        return requestQueue;
-    }
+   
     
     
     @Override
@@ -195,8 +168,8 @@ public class GetDispos extends AppCompatActivity {
         int i = 0;
         
         while(i < myList.size()) {
-            System.out.println(myList.get(i).getDt() + hdate);
-            if (!myList.get(i).getDt().equals(hdate))
+            System.out.println(myList.get(i).getDtsql() + hdate);
+            if (!myList.get(i).getDtsql().equals(hdate))
             
             return true;
             i++;
